@@ -10,62 +10,52 @@
   margin: 0;
   padding: 0;
 }
-
 body {
   background-color: rgb(50, 50, 50);
   display: flex;
   justify-content: center;
   width: 100vw;
 }
-
 h1 {
   color: white;
 }
-
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
 #input-div {
   display: block;
 }
-
 #in-out-div {
   display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-
 #input {
   width: 40vw;
   max-width: 500px;
   height: 70vh;
   max-height: 700px;
-  
-  margin-right: 10px;
+  margin-bottom: 10px;
+  margin-right: 0;
   resize: none;
   padding: 5px;
 }
-
 #font-size-label {
   color: white;
 }
-
 #font-size-display {
   color: white;
 }
-
 #output-p {
   background-color: white;
-  
   width: 40vw;
   max-width: 500px;
   min-height: 500px;
   height: 70vh;
   max-height: 700px;
-  
   border: 2px solid black;
-  
   color: rgb(24, 22, 27);
   font-size: 20px;
   font-weight: 800;
@@ -77,49 +67,55 @@ h1 {
   letter-spacing: 3px;
   line-height: 1;
 }
-
 .custom-overline {
   position: relative;
-  display: inline-block; /* Required for the border and negative margin to work */
-  margin-top: 5px; /* Adjust this to move the whole element down if needed */
-  padding-top: 2px; /* Controls the exact gap between text and the line */
+  display: inline-block;
+  margin-top: 5px;
+  padding-top: 2px;
 }
-
 .custom-overline::before {
   content: "";
   position: absolute;
-  top: 5px; /* Aligns the border with the padding */
+  top: 5px;
   left: 0;
   width: 100%;
-  border-top: 2px solid black; /* Adjust color and thickness here */
+  border-top: 2px solid black;
 }
 		</style>
 	</head>
 	<body>
 		<div class="container">
-		  <h1>Bosančica Translater By Neo Rafajlović</h1>
-		  <div id="in-out-div">
-			<div id="input-div">
-			  <label for="font-size" id="font-size-label">Size:</label>
-			  <input type="range" name="font-size" id="font-size" min="5" max="100" value="20" step="1">
-			  <span id="font-size-display">20px</span>
-			  <br>
-			  <textarea id="input" placeholder="Input..."></textarea>
+			<h1>Bosančica Translater By Neo Rafajlović</h1>
+			<div id="in-out-div">
+				<div id="input-div">
+					<label for="font-size" id="font-size-label">Size:</label>
+					<input
+						type="range"
+						name="font-size"
+						id="font-size"
+						min="5"
+						max="100"
+						value="20"
+						step="1"
+					>
+					<span id="font-size-display">20px</span>
+					<br>
+					<textarea
+						id="input"
+						placeholder="Input..."
+					></textarea>
+				</div>
+				<p id="output-p">
+					<span id="output"></span>
+				</p>
 			</div>
-			<p id="output-p">
-			  <span id="output"></span>
-			</p>
-		  </div>
-      <a href="./index.html" download>
-        <button>Download Offline Version</button>
-      </a>
+			<a href="./index.html" download>
+				<button>Download Offline Version</button>
+			</a>
 		</div>
-		
 		<script>
 const bosancica = {
   "\n": ":",
-  "\n": ":",
-  ".\n": ":",
   ".\n": ":",
   " ": "",
   ",": "•",
@@ -127,7 +123,6 @@ const bosancica = {
   "?": ":",
   "!": ":",
   ".": ":",
-  
   "1": "ʠ",
   "2": "в",
   "3": "ґ",
@@ -138,7 +133,6 @@ const bosancica = {
   "8": "н",
   "9": "ѳ",
   "0": "O",
-  
   "a": "ʠ",
   "b": "б",
   "c": "ц",
@@ -155,9 +149,9 @@ const bosancica = {
   "i": "н",
   "ja": "ѣ",
   "je": "ƀ",
-	"ju": "ю",
-	"ji": "н",
-	"j": "н",
+  "ju": "ю",
+  "ji": "н",
+  "j": "н",
   "k": "к",
   "l": "Λ",
   "lj": "ꙈΛ",
@@ -181,11 +175,8 @@ const bosancica = {
   "'": "ь",
   "y": "ы"
 };
-
 const input = document.getElementById("input");
-
 const outputSpan = document.getElementById("output");
-
 input.addEventListener("input", (e) => {
   let output = "";
   let done = 0;
@@ -208,9 +199,7 @@ input.addEventListener("input", (e) => {
   }
   outputSpan.innerHTML = output;
 });
-
 const fontSize = document.getElementById("font-size");
-
 fontSize.addEventListener("input", (e) => {
   let output = `${fontSize.value}px`;
   outputSpan.style.fontSize = output;
