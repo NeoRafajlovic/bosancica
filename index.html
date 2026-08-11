@@ -1,210 +1,455 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Bosančica Translater By Neo Rafajlović</title>
-		<style>
-* {
-  font-family: "Calibri", "Comic Sans MS", "Comic Sans", "Calibri", "Arial", sans-serif;
-  margin: 0;
-  padding: 0;
-}
-body {
-  background-color: rgb(50, 50, 50);
-  display: flex;
-  justify-content: center;
-  width: 100vw;
-}
-h1 {
-  color: white;
-}
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-#input-div {
-  display: block;
-}
-#in-out-div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-#input {
-  width: 40vw;
-  max-width: 500px;
-  height: 70vh;
-  max-height: 700px;
-  margin-bottom: 10px;
-  margin-right: 0;
-  resize: none;
-  padding: 5px;
-}
-#font-size-label {
-  color: white;
-}
-#font-size-display {
-  color: white;
-}
-#output-p {
-  background-color: white;
-  width: 40vw;
-  max-width: 500px;
-  min-height: 500px;
-  height: 70vh;
-  max-height: 700px;
-  border: 2px solid black;
-  color: rgb(24, 22, 27);
-  font-size: 20px;
-  font-weight: 800;
-  padding: 30px;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  text-align: justify;
-  text-justify: inter-character;
-  letter-spacing: 3px;
-  line-height: 1;
-}
-.custom-overline {
-  position: relative;
-  display: inline-block;
-  margin-top: 5px;
-  padding-top: 2px;
-}
-.custom-overline::before {
-  content: "";
-  position: absolute;
-  top: 5px;
-  left: 0;
-  width: 100%;
-  border-top: 2px solid black;
-}
-		</style>
-	</head>
-	<body>
-		<div class="container">
-			<h1>Bosančica Translater By Neo Rafajlović</h1>
-			<div id="in-out-div">
-				<div id="input-div">
-					<label for="font-size" id="font-size-label">Size:</label>
-					<input
-						type="range"
-						name="font-size"
-						id="font-size"
-						min="5"
-						max="100"
-						value="20"
-						step="1"
-					>
-					<span id="font-size-display">20px</span>
-					<br>
-					<textarea
-						id="input"
-						placeholder="Input..."
-					></textarea>
-				</div>
-				<p id="output-p">
-					<span id="output"></span>
-				</p>
-			</div>
-			<a href="./index.html" download>
-				<button>Download Offline Version</button>
-			</a>
-		</div>
-		<script>
-const bosancica = {
-  "\n": ":",
-  ".\n": ":",
-  " ": "",
-  ",": "•",
-  ";": "•",
-  "?": ":",
-  "!": ":",
-  ".": ":",
-  "1": "ʠ",
-  "2": "в",
-  "3": "ґ",
-  "4": "A",
-  "5": "є",
-  "6": "ꙅ",
-  "7": "ȝ",
-  "8": "н",
-  "9": "ѳ",
-  "0": "O",
-  "a": "ʠ",
-  "b": "б",
-  "c": "ц",
-  "č": "v",
-  "ć": "Ꙉ",
-  "ćt": "щ",
-  "d": "A",
-  "dž": "ꙅ",
-  "đ": "Ꙉ",
-  "e": "є",
-  "f": "Ф",
-  "g": "г",
-  "h": "х",
-  "i": "н",
-  "ja": "ѣ",
-  "je": "ƀ",
-  "ju": "ю",
-  "ji": "н",
-  "j": "н",
-  "k": "к",
-  "l": "Λ",
-  "lj": "ꙈΛ",
-  "m": "м",
-  "n": "ɴ",
-  "nj": "Ꙉɴ",
-  "o": "о",
-  "od": "ɯ",
-  "ot": "ɯ",
-  "p": "π",
-  "r": "р",
-  "s": "с",
-  "š": "ш",
-  "šć": "щ",
-  "št": "щ",
-  "t": "т",
-  "u": "ꙋ",
-  "v": "в",
-  "z": "ȝ",
-  "ž": "ⵣ",
-  "'": "ь",
-  "y": "ы"
-};
-const input = document.getElementById("input");
-const outputSpan = document.getElementById("output");
-input.addEventListener("input", (e) => {
-  let output = "";
-  let done = 0;
-  const value = input.value.toLowerCase();
-  while (done < value.length) {
-    let matched = false;
-    for (let i = value.length - done; i > 0; i--) {
-      let part = value.slice(done, done + i);
-      if (part in bosancica) {
-        output += bosancica[part];
-        done += part.length;
-        matched = true;
-        break;
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Bosančica Translator — Neo Rafajlović</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Calibri", "Arial", sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #242424, #383838);
+      color: white;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 650px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ---------- HEADER ---------- */
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .subtitle {
+      color: #bdbdbd;
+      font-size: 15px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    /* ---------- MAIN CARD ---------- */
+
+    .translator-card {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    /* ---------- FONT SIZE ---------- */
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    #font-size-label {
+      font-size: 15px;
+      color: #ddd;
+      white-space: nowrap;
+    }
+
+    #font-size {
+      flex: 1;
+      cursor: pointer;
+      accent-color: #ffffff;
+    }
+
+    #font-size-display {
+      min-width: 48px;
+      text-align: right;
+      color: #fff;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    /* ---------- INPUT ---------- */
+
+    .section-label {
+      display: block;
+      color: #ccc;
+      font-size: 13px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    #input {
+      display: block;
+      width: 100%;
+      height: 260px;
+
+      background: #f7f7f7;
+      color: #18161b;
+
+      border: 2px solid transparent;
+      border-radius: 12px;
+
+      padding: 16px;
+      resize: vertical;
+
+      font-size: 17px;
+      line-height: 1.5;
+
+      outline: none;
+
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    #input:focus {
+      border-color: #888;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+    }
+
+    #input::placeholder {
+      color: #999;
+    }
+
+    /* ---------- ARROW ---------- */
+
+    .arrow {
+      text-align: center;
+      font-size: 24px;
+      color: #aaa;
+      margin: 14px 0;
+    }
+
+    /* ---------- OUTPUT ---------- */
+
+    #output-p {
+      width: 100%;
+      min-height: 260px;
+
+      background: #ffffff;
+      color: rgb(24, 22, 27);
+
+      border: 2px solid #222;
+      border-radius: 12px;
+
+      padding: 20px;
+
+      font-size: 20px;
+      font-weight: 800;
+
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+
+      text-align: justify;
+      text-justify: inter-character;
+
+      letter-spacing: 3px;
+      line-height: 1.4;
+
+      overflow-y: auto;
+    }
+
+    /* ---------- BUTTON ---------- */
+
+    .download-container {
+      margin-top: 22px;
+      text-align: center;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+
+      background: #ffffff;
+      color: #222;
+
+      padding: 12px 22px;
+
+      font-size: 15px;
+      font-weight: bold;
+
+      cursor: pointer;
+
+      transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+    }
+
+    button:hover {
+      background: #eeeeee;
+      transform: translateY(-2px);
+      box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    /* ---------- FOOTER ---------- */
+
+    .footer {
+      margin-top: 20px;
+      color: #888;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    /* ---------- MOBILE ---------- */
+
+    @media (max-width: 600px) {
+      body {
+        padding: 25px 12px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      .translator-card {
+        padding: 16px;
+      }
+
+      #input,
+      #output-p {
+        height: 230px;
+        min-height: 230px;
       }
     }
-    if (!matched) {
-      output += value[done];
-      done++;
-    }
-  }
-  outputSpan.innerHTML = output;
-});
-const fontSize = document.getElementById("font-size");
-fontSize.addEventListener("input", (e) => {
-  let output = `${fontSize.value}px`;
-  outputSpan.style.fontSize = output;
-  document.getElementById("font-size-display").innerHTML = output;
-});
-		</script>
-	</body>
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>Bosančica Translator</h1>
+
+    <p class="subtitle">
+      Convert Latin text into Bosančica
+    </p>
+
+    <div class="translator-card">
+
+      <!-- FONT SIZE -->
+      <div class="controls">
+        <label for="font-size" id="font-size-label">
+          Text Size
+        </label>
+
+        <input
+          type="range"
+          name="font-size"
+          id="font-size"
+          min="5"
+          max="100"
+          value="20"
+          step="1"
+        >
+
+        <span id="font-size-display">20px</span>
+      </div>
+
+      <!-- INPUT -->
+      <label class="section-label" for="input">
+        Input
+      </label>
+
+      <textarea
+        id="input"
+        placeholder="Type or paste Latin text here..."
+      ></textarea>
+
+      <!-- ARROW -->
+      <div class="arrow">
+        ↓
+      </div>
+
+      <!-- OUTPUT -->
+      <span class="section-label">
+        Bosančica
+      </span>
+
+      <p id="output-p">
+        <span id="output"></span>
+      </p>
+
+    </div>
+
+    <!-- DOWNLOAD -->
+    <div class="download-container">
+      <a href="./index.html" download>
+        <button>
+          Download Offline Version
+        </button>
+      </a>
+    </div>
+
+    <p class="footer">
+      Bosančica Translator • Made by Neo Rafajlović
+    </p>
+
+  </div>
+
+
+  <script>
+
+    const bosancica = {
+      "\n": ":",
+      ".\n": ":",
+      " ": "",
+      ",": "•",
+      ";": "•",
+      "?": ":",
+      "!": ":",
+      ".": ":",
+
+      "1": "ʠ",
+      "2": "в",
+      "3": "ґ",
+      "4": "A",
+      "5": "є",
+      "6": "ꙅ",
+      "7": "ȝ",
+      "8": "н",
+      "9": "ѳ",
+      "0": "O",
+
+      "a": "ʠ",
+      "b": "б",
+      "c": "ц",
+      "č": "v",
+      "ć": "Ꙉ",
+      "ćt": "щ",
+      "d": "A",
+      "dž": "ꙅ",
+      "đ": "Ꙉ",
+      "e": "є",
+      "f": "Ф",
+      "g": "г",
+      "h": "х",
+      "i": "н",
+      "ja": "ѣ",
+      "je": "ƀ",
+      "ju": "ю",
+      "ji": "н",
+      "j": "н",
+      "k": "к",
+      "l": "Λ",
+      "lj": "ꙈΛ",
+      "m": "м",
+      "n": "ɴ",
+      "nj": "Ꙉɴ",
+      "o": "о",
+      "od": "ɯ",
+      "ot": "ɯ",
+      "p": "π",
+      "r": "р",
+      "s": "с",
+      "š": "ш",
+      "šć": "щ",
+      "št": "щ",
+      "t": "т",
+      "u": "ꙋ",
+      "v": "в",
+      "z": "ȝ",
+      "ž": "ⵣ",
+      "'": "ь",
+      "y": "ы"
+    };
+
+
+    const input = document.getElementById("input");
+    const outputSpan = document.getElementById("output");
+
+
+    input.addEventListener("input", () => {
+
+      let output = "";
+      let done = 0;
+
+      const value = input.value.toLowerCase();
+
+      while (done < value.length) {
+
+        let matched = false;
+
+        for (
+          let i = value.length - done;
+          i > 0;
+          i--
+        ) {
+
+          let part = value.slice(
+            done,
+            done + i
+          );
+
+          if (part in bosancica) {
+
+            output += bosancica[part];
+
+            done += part.length;
+
+            matched = true;
+
+            break;
+          }
+        }
+
+        if (!matched) {
+
+          output += value[done];
+
+          done++;
+        }
+      }
+
+      outputSpan.innerHTML = output;
+    });
+
+
+    /* FONT SIZE */
+
+    const fontSize =
+      document.getElementById("font-size");
+
+    const fontSizeDisplay =
+      document.getElementById("font-size-display");
+
+
+    fontSize.addEventListener("input", () => {
+
+      const output =
+        `${fontSize.value}px`;
+
+      outputSpan.style.fontSize =
+        output;
+
+      fontSizeDisplay.innerHTML =
+        output;
+    });
+
+  </script>
+
+</body>
 </html>
